@@ -1,8 +1,24 @@
+import {useState, useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import Product from '../components/Product';
-import products from '../products';
+import axios from 'axios';
 
 function HomeScreen() {
+  // STATE
+  const [products, setProducts] = useState([])
+
+  useEffect(()=> {
+    const fetProducts = async () => {
+      const {data} = await axios.get('/api/products')
+
+      setProducts(data);
+    }
+
+    fetProducts();
+  }, []);
+
+
+  // Rebdered Element
   return (
     <>
         <h1>Nouveaux Produits</h1>
