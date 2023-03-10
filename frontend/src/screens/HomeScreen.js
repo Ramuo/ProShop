@@ -1,36 +1,62 @@
-import {useState, useEffect} from 'react';
+
+
+import {useEffect, useRef} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import Product from '../components/Product';
-import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux'
+import {listProducts} from '../features/products/productListSlice';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+
+
+
 
 function HomeScreen() {
   // STATE
-  const [products, setProducts] = useState([])
+  const {products, isLoading, isError, message} = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
+  const effectRan = useRef(false);
 
   useEffect(()=> {
-    const fetProducts = async () => {
-      const {data} = await axios.get('/api/products')
-
-      setProducts(data);
+    if(effectRan.current === false){
+      dispatch(listProducts());
+      console.log('effect ran');
+      return () => {
+        effectRan.current = true
+        console.log(`unmounted`)
+      }
     }
-
-    fetProducts();
-  }, []);
+  }, [dispatch]);
 
 
   // Rebdered Element
   return (
     <>
         <h1>Nouveaux Produits</h1>
-        <Row>
-            {products.map((product)=>(
-               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                    <Product product={product} />
-               </Col> 
-            ))}
-        </Row>
+        {isLoading ? (
+          <Loader/>
+          ) : isError ? ( 
+          <Message>{message}</Message>
+          ) : (
+          <Row>
+           {products.map((product)=>(
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                   <Product product={product} />
+              </Col> 
+           ))}
+          </Row>
+        ) }
     </>
   )
 }
 
-export default HomeScreen
+export default HomeScreen;
+
+
+
+
+
+
+
+
