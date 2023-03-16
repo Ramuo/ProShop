@@ -11,26 +11,29 @@ import FormContainer from '../components/FormContainer'
 
 function LoginScreen() {
     //STATE
-    const [email, setEmail] = useState(' ');
-    const [password, setPassword] = useState(' ');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    const {isLoading, isError, message, user} = useSelector((state) => state.auth);
+    const { isLoading, isError, message, user } = useSelector(
+        (state) => state.auth,
+    )
 
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const redirect = location.search ? location.search.split('=')[1] : '/';
+    const redirect = location.search ? location.search.split('=')[1] : '/'
 
-    useEffect(()=>{
-        if(user){
-            navigate(redirect)
+
+    useEffect(() => {
+        if (user) {
+          navigate(redirect)
         }
-
+    
         return () => {
-            dispatch(reset())
+          dispatch(reset())
         }
-    }, [user, navigate, redirect, dispatch]);
+    }, [user, navigate, redirect, dispatch])
 
     //Functions
     //To submit the form
@@ -42,7 +45,7 @@ function LoginScreen() {
     //Rendered elements
     return (
     <FormContainer>
-        <h1>S'identifier</h1>
+        <h1>Mon compte</h1>
 
         {isError && <Message variant='danger'>{message}</Message>}
         {isLoading && <Loader/>}

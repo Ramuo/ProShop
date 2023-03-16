@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Row,
@@ -28,30 +28,6 @@ function CartScreen() {
   const urlQty = location.search ? Number(location.search.split('=')[1]) : 1
   const [qty, setQty] = useState(urlQty)
 
-  // const { id } = useParams()
-
-  //const { product } = useSelector((state) => state.product)
-
-  // const temp = {
-  //   totalQuantity,
-  //   totalPrice,
-  // }
-  // localStorage.setItem('total', JSON.stringify(temp))
-
-  // const { cartItems } = cart
-
-  // useEffect(() => {
-  //   if (effectRan.current === false) {
-  //     // dispatch(addToCart(id))
-
-  //     // dispatch(displayCart(cartItems.id))
-
-  //     return () => {
-  //       effectRan.current = true
-  //     }
-  //   }
-  // }, [dispatch])
-
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
@@ -62,12 +38,6 @@ function CartScreen() {
 
   console.log(cartItems)
 
-  // const onChange = (e) => {
-  //   setQty((prevState) => ({
-  //     ...prevState,
-  //     [e.target.name]: Number(e.target.value),
-  //   }))
-  // }
 
   return (
     <Row>
